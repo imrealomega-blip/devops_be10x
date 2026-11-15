@@ -165,6 +165,67 @@ button, input, select {
   gap: 18px;
 }
 
+.topbar-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn,
+.profile-pill {
+  border: 1px solid var(--line);
+  background: rgba(148, 163, 184, 0.06);
+  color: var(--text);
+  border-radius: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+}
+
+.profile-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px 6px 8px;
+}
+
+.profile-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  background: linear-gradient(135deg, #7dd3fc, #818cf8);
+  color: #06131f;
+  box-shadow: 0 10px 20px rgba(125, 211, 252, 0.25);
+}
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.profile-text small {
+  color: var(--muted);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.profile-text strong {
+  font-size: 0.9rem;
+}
+
 .month-picker {
   display: flex;
   flex-direction: column;
@@ -204,7 +265,9 @@ button, input, select {
 }
 
 .primary-btn:hover,
-.ghost-btn:hover {
+.ghost-btn:hover,
+.icon-btn:hover,
+.profile-pill:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 28px rgba(98, 168, 255, 0.18);
 }
@@ -212,6 +275,8 @@ button, input, select {
 .primary-btn:focus-visible,
 .ghost-btn:focus-visible,
 .nav-item:focus-visible,
+.icon-btn:focus-visible,
+.profile-pill:focus-visible,
 .field-row input:focus-visible,
 .field-row select:focus-visible {
   outline: 2px solid rgba(98, 168, 255, 0.9);
