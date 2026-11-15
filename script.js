@@ -201,8 +201,10 @@ navButtons.forEach((button) => {
 
 addTransactionBtn.addEventListener('click', () => {
   const formCard = document.querySelector('.form-panel');
+  const titleInput = document.getElementById('entry-title');
+
   formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  document.getElementById('entry-title').focus();
+  setTimeout(() => titleInput.focus(), 120);
   showToast('Transaction form ready');
 });
 
