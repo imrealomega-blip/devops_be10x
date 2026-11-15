@@ -7,6 +7,11 @@ const totalBalanceEl = document.getElementById('total-balance');
 const incomeTotalEl = document.getElementById('income-total');
 const expenseTotalEl = document.getElementById('expense-total');
 const savingsRateEl = document.getElementById('savings-rate');
+const addTransactionBtn = document.getElementById('add-transaction-btn');
+const addGoalBtn = document.getElementById('add-goal-btn');
+const toastEl = document.getElementById('toast');
+const navButtons = [...document.querySelectorAll('.nav-item')];
+const appSections = [...document.querySelectorAll('.app-section')];
 
 const data = {
   currentMonth: new Date().getMonth(),
@@ -149,12 +154,75 @@ function renderTransactions() {
   });
 }
 
+function showToast(message) {
+  toastEl.textContent = message;
+  toastEl.classList.add('visible');
+  clearTimeout(showToast.timeoutId);
+  showToast.timeoutId = setTimeout(() => {
+    toastEl.classList.remove('visible');
+  }, 2200);
+}
+
+function updateReportCards() {
+  const summary = getSummary();
+  const cashLeft = summary.balance;
+  const avgGoalProgress = data.goals.reduce((total, goal) => total + Math.min((goal.saved / goal.target) * 100, 100), 0) / data.goals.length;
+  const topSpendItem = [...data.budgets].sort((a, b) => b.spent - a.spent)[0];
+
+  document.getElementById('report-cash-left').textContent = formatCurrency(cashLeft);
+  document.getElementById('report-goal-progress').textContent = `${avgGoalProgress.toFixed(0)}%`;
+  document.getElementById('report-top-spend').textContent = topSpendItem ? topSpendItem.category : 'N/A';
+}
+
+function setActiveView(view) {
+  navButtons.forEach((button) => {
+    const isActive = button.dataset.view === view;
+    button.classList.toggle('active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+
+  appSections.forEach((section) => {
+    const isVisible = view === 'overview' || section.dataset.viewPanel === view;
+    section.style.display = isVisible ? '' : 'none';
+  });
+}
+
 function refreshDashboard() {
   renderSummary();
   renderBudgets();
   renderGoals();
   renderTransactions();
+  updateReportCards();
 }
+
+navButtons.forEach((button) => {
+  button.addEventListener('click', () => setActiveView(button.dataset.view));
+});
+
+addTransactionBtn.addEventListener('click', () => {
+  const formCard = document.querySelector('.form-panel');
+  formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('entry-title').focus();
+  showToast('Transaction form ready');
+});
+
+addGoalBtn.addEventListener('click', () => {
+  const goalName = window.prompt('New savings goal name', 'Travel Fund');
+  if (!goalName || !goalName.trim()) return;
+
+  const targetAmount = Number(window.prompt('Target amount', '5000'));
+  if (!targetAmount || Number.isNaN(targetAmount) || targetAmount <= 0) return;
+
+  data.goals.unshift({
+    title: goalName.trim(),
+    target: targetAmount,
+    saved: 0,
+    due: new Date(Date.now() + 1000 * 60 * 60 * 24 * 120).toISOString().slice(0, 10)
+  });
+
+  refreshDashboard();
+  showToast(`${goalName.trim()} added`);
+});
 
 monthSelect.addEventListener('change', (event) => {
   data.currentMonth = Number(event.target.value);
@@ -170,7 +238,8 @@ transactionForm.addEventListener('submit', (event) => {
   const amount = Number(document.getElementById('entry-amount').value);
   const date = document.getElementById('entry-date').value;
 
-  if (!title || !date || !amount) {
+  if (!title || !date || !amount || amount <= 0) {
+    showToast('Please enter valid transaction details');
     return;
   }
 
@@ -187,11 +256,13 @@ transactionForm.addEventListener('submit', (event) => {
   document.getElementById('entry-date').valueAsDate = new Date();
   document.getElementById('entry-type').value = 'expense';
   refreshDashboard();
+  showToast('Transaction added successfully');
 });
 
 window.addEventListener('DOMContentLoaded', () => {
   const today = new Date();
   document.getElementById('entry-date').valueAsDate = today;
   monthSelect.value = String(data.currentMonth);
+  setActiveView('overview');
   refreshDashboard();
 });

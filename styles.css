@@ -112,6 +112,10 @@ button, input, select {
   color: #eaf4ff;
 }
 
+.app-section[style*="display: none"] {
+  display: none !important;
+}
+
 .sidebar-card {
   margin-top: auto;
   background: linear-gradient(180deg, rgba(62, 85, 109, 0.32), rgba(26, 41, 56, 0.9));
@@ -188,7 +192,7 @@ button, input, select {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .primary-btn {
@@ -202,6 +206,16 @@ button, input, select {
 .primary-btn:hover,
 .ghost-btn:hover {
   transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(98, 168, 255, 0.18);
+}
+
+.primary-btn:focus-visible,
+.ghost-btn:focus-visible,
+.nav-item:focus-visible,
+.field-row input:focus-visible,
+.field-row select:focus-visible {
+  outline: 2px solid rgba(98, 168, 255, 0.9);
+  outline-offset: 2px;
 }
 
 .ghost-btn {
@@ -468,6 +482,59 @@ button, input, select {
 .submit-btn {
   width: 100%;
   margin-top: 6px;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mini-stat {
+  background: rgba(148, 163, 184, 0.06);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mini-stat span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.mini-stat strong {
+  font-size: 1.1rem;
+}
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: rgba(15, 24, 33, 0.96);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.empty-state {
+  color: var(--muted);
+  padding: 18px 0 6px;
 }
 
 @media (max-width: 1080px) {

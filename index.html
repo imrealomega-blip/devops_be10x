@@ -23,20 +23,20 @@
           </div>
         </div>
 
-        <nav class="nav">
-          <button class="nav-item active">
+        <nav class="nav" aria-label="Main navigation">
+          <button type="button" class="nav-item active" data-view="overview" aria-pressed="true">
             <span>Overview</span>
           </button>
-          <button class="nav-item">
+          <button type="button" class="nav-item" data-view="transactions" aria-pressed="false">
             <span>Transactions</span>
           </button>
-          <button class="nav-item">
+          <button type="button" class="nav-item" data-view="budgets" aria-pressed="false">
             <span>Budgets</span>
           </button>
-          <button class="nav-item">
+          <button type="button" class="nav-item" data-view="goals" aria-pressed="false">
             <span>Goals</span>
           </button>
-          <button class="nav-item">
+          <button type="button" class="nav-item" data-view="reports" aria-pressed="false">
             <span>Reports</span>
           </button>
         </nav>
@@ -73,7 +73,7 @@
                 <option value="11">December</option>
               </select>
             </label>
-            <button class="primary-btn">+ Add transaction</button>
+            <button id="add-transaction-btn" type="button" class="primary-btn">+ Add transaction</button>
           </div>
         </header>
 
@@ -117,24 +117,24 @@
 
         <section class="content-grid">
           <div class="left-stack">
-            <article class="panel">
+            <article class="panel app-section" data-view-panel="budgets">
               <div class="panel-header">
                 <div>
                   <p class="eyebrow muted">Spending overview</p>
                   <h3>Budget health</h3>
                 </div>
-                <button class="ghost-btn">View all</button>
+                <button type="button" class="ghost-btn">View all</button>
               </div>
               <div id="budget-list" class="budget-list"></div>
             </article>
 
-            <article class="panel">
+            <article class="panel app-section" data-view-panel="transactions">
               <div class="panel-header">
                 <div>
                   <p class="eyebrow muted">Activity</p>
                   <h3>Recent transactions</h3>
                 </div>
-                <button class="ghost-btn">Export</button>
+                <button type="button" class="ghost-btn">Export</button>
               </div>
 
               <div class="transaction-table">
@@ -150,18 +150,41 @@
           </div>
 
           <aside class="right-stack">
-            <article class="panel goals-panel">
+            <article class="panel goals-panel app-section" data-view-panel="goals">
               <div class="panel-header">
                 <div>
                   <p class="eyebrow muted">Goal tracker</p>
                   <h3>Saving goals</h3>
                 </div>
-                <button class="ghost-btn">+ Add</button>
+                <button id="add-goal-btn" type="button" class="ghost-btn">+ Add</button>
               </div>
               <div id="goal-list" class="goal-list"></div>
             </article>
 
-            <article class="panel form-panel">
+            <article class="panel report-panel app-section" data-view-panel="reports">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow muted">Insights</p>
+                  <h3>Performance report</h3>
+                </div>
+              </div>
+              <div class="report-grid">
+                <div class="mini-stat">
+                  <span>Cash left</span>
+                  <strong id="report-cash-left">$0.00</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Goal progress</span>
+                  <strong id="report-goal-progress">0%</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Top spend</span>
+                  <strong id="report-top-spend">Housing</strong>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel form-panel app-section" data-view-panel="overview">
               <div class="panel-header">
                 <div>
                   <p class="eyebrow muted">Quick add</p>
@@ -225,6 +248,8 @@
         </section>
       </main>
     </div>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
 
     <script src="script.js"></script>
   </body>
